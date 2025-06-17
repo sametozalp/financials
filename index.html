@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gelir Gider Takibi</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Gelir Gider Takibi</h1>
+    <form id="transaction-form">
+      <input type="text" id="desc" placeholder="Açıklama" required />
+      <input type="number" id="amount" placeholder="Miktar (₺)" required />
+      <input type="date" id="date" required />
+      <select id="type">
+        <option value="gelir">Gelir</option>
+        <option value="gider">Gider</option>
+      </select>
+      <select id="category">
+        <option value="Genel">Genel</option>
+        <option value="Yiyecek">Yiyecek</option>
+        <option value="Ulaşım">Ulaşım</option>
+        <option value="Eğlence">Eğlence</option>
+      </select>
+      <button type="submit">Ekle</button>
+    </form>
+
+    <div class="totals">
+      <p>Toplam Gelir: <span id="total-income">₺0</span></p>
+      <p>Toplam Gider: <span id="total-expense">₺0</span></p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Açıklama</th>
+          <th>Miktar</th>
+          <th>Tarih</th>
+          <th>Tür</th>
+          <th>Kategori</th>
+          <th>İşlem</th>
+        </tr>
+      </thead>
+      <tbody id="financials"></tbody>
+    </table>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
