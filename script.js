@@ -59,7 +59,15 @@ function updateTable() {
   const list = document.getElementById("financials");
   list.innerHTML = "";
 
-  transactions.forEach((t) => {
+  const selectedType = document.getElementById("filter-type").value;
+  const selectedCategory = document.getElementById("filter-category").value;
+
+  const filtered = transactions.filter(t => {
+    return (selectedType === "" || t.type === selectedType) &&
+           (selectedCategory === "" || t.category === selectedCategory);
+  });
+
+  filtered.forEach((t) => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td data-label="Açıklama">${t.description}</td>
@@ -72,12 +80,13 @@ function updateTable() {
         <button onclick="deleteTransaction('${t.id}')">Sil</button>
       </td>
     `;
-
     list.appendChild(row);
   });
 
+  updateTotals();
   updateCharts();
 }
+
 
 async function deleteTransaction(id) {
   await fetch(`${API_URL}/${id}`, { method: "DELETE" });
@@ -212,3 +221,11 @@ function generateColors(count) {
   }
   return colors;
 }
+
+document.getElementById("filter-type").addEventListener("change", updateTable);
+document.getElementById("filter-category").addEventListener("change", updateTable);
+document.getElementById("clear-filters").addEventListener("click", () => {
+  document.getElementById("filter-type").value = "";
+  document.getElementById("filter-category").value = "";
+  updateTable();
+});

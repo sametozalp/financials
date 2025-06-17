@@ -13,7 +13,11 @@
 <body>
   <div class="container">
     <h1>Gelir Gider Takibi</h1>
+
     <form id="transaction-form">
+
+
+
       <input type="text" id="desc" placeholder="Açıklama" required />
       <input type="number" id="amount" placeholder="Miktar (₺)" required />
       <input type="date" id="date" required />
@@ -48,6 +52,35 @@
     </div>
 
     <table>
+      <div id="filters">
+        <select id="filter-type">
+          <option value="">Tüm Türler</option>
+          <option value="gelir">Gelir</option>
+          <option value="gider">Gider</option>
+        </select>
+
+        <select id="filter-category">
+          <option value="">Tüm Kategoriler</option>
+          <option value="Genel">Genel</option>
+          <option value="Yiyecek">Yiyecek</option>
+          <option value="Ulaşım">Ulaşım</option>
+          <option value="Eğlence">Eğlence</option>
+          <option value="Kira">Kira</option>
+          <option value="Fatura">Fatura</option>
+          <option value="Sağlık">Sağlık</option>
+          <option value="Eğitim">Eğitim</option>
+          <option value="Alışveriş">Alışveriş</option>
+          <option value="Tasarruf">Tasarruf</option>
+          <option value="Maaş">Maaş</option>
+          <option value="Yatırım">Yatırım</option>
+          <option value="Hediye">Hediye</option>
+          <option value="Seyahat">Seyahat</option>
+          <option value="Diğer">Diğer</option>
+        </select>
+
+        <button id="clear-filters">Filtreyi Temizle</button>
+      </div>
+
       <thead>
         <tr>
           <th>Açıklama</th>
