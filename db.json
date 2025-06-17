@@ -5,8 +5,16 @@
       "amount": 22500,
       "date": "2025-06-12",
       "type": "gider",
-      "category": "Ulaşım",
+      "category": "Maaş",
       "id": "e779"
+    },
+    {
+      "id": "6651",
+      "description": "araba",
+      "amount": 300000,
+      "date": "2025-06-17",
+      "type": "gider",
+      "category": "Tasarruf"
     }
   ]
 }
