@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gelir Gider Takibi</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -58,6 +60,19 @@
       </thead>
       <tbody id="financials"></tbody>
     </table>
+
+    <div class="charts">
+      <div class="chart-box">
+        <canvas id="incomeChart"></canvas>
+        <div class="chart-title">Gelir Dağılımı</div>
+      </div>
+      <div class="chart-box">
+        <canvas id="expenseChart"></canvas>
+        <div class="chart-title">Gider Dağılımı</div>
+      </div>
+    </div>
+
+
   </div>
 
   <script src="script.js"></script>

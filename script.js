@@ -62,19 +62,21 @@ function updateTable() {
   transactions.forEach((t) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-  <td data-label="Açıklama">${t.description}</td>
-  <td data-label="Miktar">₺${t.amount.toFixed(2)}</td>
-  <td data-label="Tarih">${t.date}</td>
-  <td data-label="Tür">${t.type}</td>
-  <td data-label="Kategori">${t.category}</td>
-  <td data-label="İşlem">
-    <button onclick="editTransaction('${t.id}')">Düzenle</button>
-    <button onclick="deleteTransaction('${t.id}')">Sil</button>
-  </td>
-`;
+      <td data-label="Açıklama">${t.description}</td>
+      <td data-label="Miktar">₺${t.amount.toFixed(2)}</td>
+      <td data-label="Tarih">${t.date}</td>
+      <td data-label="Tür">${t.type}</td>
+      <td data-label="Kategori">${t.category}</td>
+      <td data-label="İşlem">
+        <button onclick="editTransaction('${t.id}')">Düzenle</button>
+        <button onclick="deleteTransaction('${t.id}')">Sil</button>
+      </td>
+    `;
 
     list.appendChild(row);
   });
+
+  updateCharts();
 }
 
 async function deleteTransaction(id) {
@@ -82,6 +84,7 @@ async function deleteTransaction(id) {
   transactions = transactions.filter(t => t.id !== id);
   updateTable();
   updateTotals();
+  updateCharts();
 }
 
 function updateTotals() {
@@ -129,3 +132,83 @@ document.getElementById("cancel-edit").addEventListener("click", () => {
   // Vazgeç butonunu gizle
   document.getElementById("cancel-edit").style.display = "none";
 });
+
+let incomeChart, expenseChart;
+
+function updateCharts() {
+  const incomeData = {};
+  const expenseData = {};
+
+  transactions.forEach(t => {
+    const target = t.type === "gelir" ? incomeData : expenseData;
+    target[t.category] = (target[t.category] || 0) + t.amount;
+  });
+
+  // Verileri ayır
+  const incomeLabels = Object.keys(incomeData);
+  const incomeValues = Object.values(incomeData);
+
+  const expenseLabels = Object.keys(expenseData);
+  const expenseValues = Object.values(expenseData);
+
+  // Eğer grafikler zaten varsa önce yok et
+  if (incomeChart) incomeChart.destroy();
+  if (expenseChart) expenseChart.destroy();
+
+  // Gelir grafiği
+  const ctxIncome = document.getElementById("incomeChart").getContext("2d");
+  incomeChart = new Chart(ctxIncome, {
+    type: "pie",
+    data: {
+      labels: incomeLabels,
+      datasets: [{
+        data: incomeValues,
+        backgroundColor: generateColors(incomeLabels.length),
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+        title: {
+          display: false,
+          //text: 'Gelir Dağılımı'
+        }
+      }
+    }
+  });
+
+  // Gider grafiği
+  const ctxExpense = document.getElementById("expenseChart").getContext("2d");
+  expenseChart = new Chart(ctxExpense, {
+    type: "pie",
+    data: {
+      labels: expenseLabels,
+      datasets: [{
+        data: expenseValues,
+        backgroundColor: generateColors(expenseLabels.length),
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+        title: {
+          display: false,
+          //text: 'Gider Dağılımı'
+        }
+      }
+    }
+  });
+}
+
+// Rastgele renkler üret
+function generateColors(count) {
+  const colors = [];
+  for (let i = 0; i < count; i++) {
+    colors.push(`hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`);
+  }
+  return colors;
+}

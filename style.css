@@ -45,7 +45,9 @@ form {
 }
 
 /* Form elemanları */
-input, select, button {
+input,
+select,
+button {
   padding: 12px 15px;
   font-size: 16px;
   border: 2px solid #ddd;
@@ -54,9 +56,10 @@ input, select, button {
   outline-offset: 2px;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: #007bff;
-  box-shadow: 0 0 6px rgba(0,123,255,0.4);
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
 }
 
 /* Butonlar */
@@ -117,7 +120,7 @@ thead tr {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: 12px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 thead th {
@@ -127,7 +130,7 @@ thead th {
 
 tbody tr {
   background: #fafafa;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: background-color 0.2s ease;
   border-radius: 10px;
 }
@@ -175,6 +178,12 @@ tbody button:last-child:hover {
 
 /* Mobil uyumlu düzenlemeler */
 @media (max-width: 768px) {
+
+  .chart-title {
+    margin-left: 0px;
+    text-align: center;
+  }
+
   /* Container padding biraz küçülsün */
   .container {
     padding: 20px 25px;
@@ -205,7 +214,8 @@ tbody button:last-child:hover {
   }
 
   thead {
-    display: none; /* Başlık satırı gizleniyor */
+    display: none;
+    /* Başlık satırı gizleniyor */
   }
 
   tbody tr {
@@ -213,7 +223,7 @@ tbody button:last-child:hover {
     margin-bottom: 20px;
     background: #fafafa;
     border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     padding: 15px 20px;
   }
 
@@ -253,7 +263,9 @@ tbody button:last-child:hover {
     font-size: 1.5rem;
   }
 
-  input, select, button {
+  input,
+  select,
+  button {
     font-size: 14px;
     padding: 10px 12px;
   }
@@ -275,8 +287,35 @@ tbody button:last-child:hover {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.charts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.chart-box {
+  width: 300px;
+}
+
+.chart-box canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  color: #444;
+  letter-spacing: 0.5px;
+  margin-left: 35px;
 }

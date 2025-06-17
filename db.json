@@ -1,20 +1,36 @@
 {
   "financials": [
     {
-      "description": "maaş",
-      "amount": 22500,
-      "date": "2025-06-12",
+      "description": "araba",
+      "amount": 300,
+      "date": "2025-06-05",
       "type": "gider",
-      "category": "Maaş",
-      "id": "e779"
+      "category": "Ulaşım",
+      "id": "d732"
     },
     {
-      "id": "6651",
-      "description": "araba",
-      "amount": 300000,
-      "date": "2025-06-17",
+      "id": "d19a",
+      "description": "maaş",
+      "amount": 600,
+      "date": "2025-06-12",
+      "type": "gelir",
+      "category": "Maaş"
+    },
+    {
+      "id": "72d7",
+      "description": "deneme gelir",
+      "amount": 100,
+      "date": "2025-06-14",
+      "type": "gelir",
+      "category": "Genel"
+    },
+    {
+      "id": "7c4e",
+      "description": "deneme gider",
+      "amount": 250,
+      "date": "2025-06-09",
       "type": "gider",
-      "category": "Tasarruf"
+      "category": "Genel"
     }
   ]
 }
