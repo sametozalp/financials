@@ -1,20 +1,12 @@
 {
   "financials": [
     {
-      "id": "ae56",
-      "description": "araba",
-      "amount": 500000,
-      "date": "2025-06-07",
-      "type": "gider",
-      "category": "Ulaşım"
-    },
-    {
-      "id": "e779",
       "description": "maaş",
       "amount": 22500,
       "date": "2025-06-12",
-      "type": "gelir",
-      "category": "Yiyecek"
+      "type": "gider",
+      "category": "Ulaşım",
+      "id": "e779"
     }
   ]
 }

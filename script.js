@@ -24,14 +24,32 @@ document.getElementById("transaction-form").addEventListener("submit", async fun
 
   const newTransaction = { description: desc, amount, date, type, category };
 
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newTransaction)
-  });
+  if (editingId) {
+    // Güncelleme işlemi
+    const res = await fetch(`${API_URL}/${editingId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTransaction)
+    });
 
-  const saved = await res.json();
-  transactions.push(saved);
+    const updated = await res.json();
+    const index = transactions.findIndex(t => t.id === editingId);
+    transactions[index] = updated;
+    editingId = null;
+
+    document.querySelector("#transaction-form button").textContent = "Ekle";
+  } else {
+    // Yeni ekleme işlemi
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTransaction)
+    });
+
+    const saved = await res.json();
+    transactions.push(saved);
+  }
+
   updateTable();
   updateTotals();
   this.reset();
@@ -49,7 +67,10 @@ function updateTable() {
       <td>${t.date}</td>
       <td>${t.type}</td>
       <td>${t.category}</td>
-      <td><button onclick="deleteTransaction('${t.id}')">Sil</button></td>
+      <td>
+        <button onclick="editTransaction('${t.id}')">Düzenle</button>
+        <button onclick="deleteTransaction('${t.id}')">Sil</button>
+      </td>
     `;
     list.appendChild(row);
   });
@@ -74,3 +95,36 @@ function updateTotals() {
   document.getElementById("total-income").textContent = `₺${income.toFixed(2)}`;
   document.getElementById("total-expense").textContent = `₺${expense.toFixed(2)}`;
 }
+
+let editingId = null;
+
+function editTransaction(id) {
+  const transaction = transactions.find(t => t.id === id);
+  if (!transaction) return;
+
+  document.getElementById("desc").value = transaction.description;
+  document.getElementById("amount").value = transaction.amount;
+  document.getElementById("date").value = transaction.date;
+  document.getElementById("type").value = transaction.type;
+  document.getElementById("category").value = transaction.category;
+
+  editingId = id;
+
+  document.querySelector("#transaction-form button").textContent = "Güncelle";
+  document.getElementById("cancel-edit").style.display = "inline-block";
+}
+
+
+document.getElementById("cancel-edit").addEventListener("click", () => {
+  // Formu sıfırla
+  document.getElementById("transaction-form").reset();
+
+  // Düzenleme modunu kapat
+  editingId = null;
+
+  // Buton metnini geri "Ekle" yap
+  document.querySelector("#transaction-form button").textContent = "Ekle";
+
+  // Vazgeç butonunu gizle
+  document.getElementById("cancel-edit").style.display = "none";
+});
