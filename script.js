@@ -18,7 +18,7 @@ document.getElementById("transaction-form").addEventListener("submit", async fun
   const category = document.getElementById("category").value;
 
   if (!desc || isNaN(amount) || !date || amount <= 0) {
-    alert("Geçerli bilgi gir.");
+    alert("Geçersiz bilgi !");
     return;
   }
 

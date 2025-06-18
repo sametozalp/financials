@@ -1,36 +1,36 @@
 {
   "financials": [
     {
-      "description": "araba",
-      "amount": 300,
+      "description": "araba bakım",
+      "amount": 6500,
       "date": "2025-06-05",
       "type": "gider",
       "category": "Ulaşım",
       "id": "d732"
     },
     {
-      "id": "d19a",
       "description": "maaş",
-      "amount": 600,
+      "amount": 22500,
       "date": "2025-06-12",
       "type": "gelir",
-      "category": "Maaş"
+      "category": "Maaş",
+      "id": "d19a"
     },
     {
-      "id": "72d7",
-      "description": "deneme gelir",
-      "amount": 100,
+      "description": "kira",
+      "amount": 15000,
       "date": "2025-06-14",
       "type": "gelir",
-      "category": "Genel"
+      "category": "Kira",
+      "id": "72d7"
     },
     {
-      "id": "7c4e",
-      "description": "deneme gider",
-      "amount": 250,
+      "description": "tatildeki otel masrafları",
+      "amount": 2500,
       "date": "2025-06-09",
       "type": "gider",
-      "category": "Genel"
+      "category": "Seyahat",
+      "id": "7c4e"
     }
   ]
 }
