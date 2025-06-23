@@ -228,11 +228,17 @@ function updateCharts() {
 
 function generateColors(count) {
   const colors = [];
+  const baseHue = Math.floor(Math.random() * 360); // Başlangıç tonunu rastgele belirle
+  const hueStep = 360 / count;
+
   for (let i = 0; i < count; i++) {
-    colors.push(`hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`);
+    const hue = (baseHue + i * hueStep + Math.random() * 10) % 360; // Küçük bir rastgelelik ekle
+    colors.push(`hsl(${hue}, 70%, 60%)`);
   }
+
   return colors;
 }
+
 
 document.getElementById("filter-type").addEventListener("change", updateTable);
 document.getElementById("filter-category").addEventListener("change", updateTable);
