@@ -1,7 +1,3 @@
-<!--KATEGORİ EKLEME SİLME ÖZELLİĞİ EKLENECEK
-RAPOR HAZIRLANACAK VE KAĞIDA BASILACAK-->
-
-
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -11,12 +7,54 @@ RAPOR HAZIRLANACAK VE KAĞIDA BASILACAK-->
   <title>Gelir Gider Takibi</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Modal stilleri */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .close {
+      float: right;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+    .modal-content form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    #category-list li {
+      display: flex;
+      justify-content: space-between;
+      margin: 4px 0;
+    }
+  </style>
 </head>
 
 <body>
   <div class="container">
     <h1>Gelir Gider Takibi</h1>
 
+    <!-- Form -->
     <form id="transaction-form">
       <input type="text" id="desc" placeholder="Açıklama" required />
       <input type="number" id="amount" placeholder="Miktar (₺)" required />
@@ -35,19 +73,20 @@ RAPOR HAZIRLANACAK VE KAĞIDA BASILACAK-->
       <p>Toplam Gider: <span id="total-expense">₺0</span></p>
     </div>
 
-    <table>
-      <div id="filters">
-        <select id="filter-type">
-          <option value="">Tüm Türler</option>
-          <option value="gelir">Gelir</option>
-          <option value="gider">Gider</option>
-        </select>
-        <select id="filter-category">
-          <option value="">Tüm Kategoriler</option>
-        </select>
-        <button id="clear-filters">Filtreyi Temizle</button>
-      </div>
+    <div id="filters">
+      <select id="filter-type">
+        <option value="">Tüm Türler</option>
+        <option value="gelir">Gelir</option>
+        <option value="gider">Gider</option>
+      </select>
+      <select id="filter-category">
+        <option value="">Tüm Kategoriler</option>
+      </select>
+      <button id="clear-filters">Filtreyi Temizle</button>
+      <button id="open-category-modal">Kategori Ekle</button>
+    </div>
 
+    <table>
       <thead>
         <tr>
           <th>Açıklama</th>
@@ -70,6 +109,20 @@ RAPOR HAZIRLANACAK VE KAĞIDA BASILACAK-->
         <canvas id="expenseChart"></canvas>
         <div class="chart-title">Gider Dağılımı</div>
       </div>
+    </div>
+
+  </div>
+
+  <!-- Kategori Modalı -->
+  <div id="category-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="close-category-modal">&times;</span>
+      <h2>Kategori Yönetimi</h2>
+      <form id="category-form">
+        <input type="text" id="new-category" placeholder="Yeni kategori adı" required />
+        <button type="submit">Ekle</button>
+      </form>
+      <ul id="category-list"></ul>
     </div>
   </div>
 

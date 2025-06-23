@@ -319,3 +319,15 @@ tbody button:last-child:hover {
   letter-spacing: 0.5px;
   margin-left: 35px;
 }
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh; /* Ekran yüksekliğinin %80'i */
+  overflow-y: auto; /* Taşan içerikte dikey scroll */
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}

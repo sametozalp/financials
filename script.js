@@ -5,6 +5,12 @@ let transactions = [];
 let categories = [];
 let editingId = null;
 
+// Modal yönetimi
+const modal = document.getElementById("category-modal");
+document.getElementById("open-category-modal").onclick = () => modal.style.display = "block";
+document.getElementById("close-category-modal").onclick = () => modal.style.display = "none";
+window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+
 window.onload = async () => {
   try {
     const [res1, res2] = await Promise.all([
@@ -17,6 +23,7 @@ window.onload = async () => {
     populateCategorySelects();
     updateTable();
     updateTotals();
+    renderCategoryList();
   } catch (err) {
     console.error("Veri alınırken hata oluştu:", err);
   }
@@ -46,7 +53,7 @@ function populateCategorySelects() {
 
 function getCategoryNameById(id) {
   const cat = categories.find(c => c.id === id);
-  return cat ? cat.category : "Bilinmeyen";
+  return cat ? cat.category : "Silinmiş";
 }
 
 document.getElementById("transaction-form").addEventListener("submit", async function (e) {
@@ -104,7 +111,7 @@ function updateTable() {
 
   const filtered = transactions.filter(t => {
     return (selectedType === "" || t.type === selectedType) &&
-           (selectedCategoryId === "" || t.category === selectedCategoryId);
+      (selectedCategoryId === "" || t.category === selectedCategoryId);
   });
 
   filtered.forEach((t) => {
@@ -197,7 +204,7 @@ function updateCharts() {
       labels: incomeLabels,
       datasets: [{ data: incomeValues, backgroundColor: generateColors(incomeLabels.length) }]
     },
-    options: { plugins: { legend: { position: 'right' }, title: { display: false } } }
+    options: { plugins: { legend: { position: 'right' } } }
   });
 
   expenseChart = new Chart(document.getElementById("expenseChart").getContext("2d"), {
@@ -206,7 +213,7 @@ function updateCharts() {
       labels: expenseLabels,
       datasets: [{ data: expenseValues, backgroundColor: generateColors(expenseLabels.length) }]
     },
-    options: { plugins: { legend: { position: 'right' }, title: { display: false } } }
+    options: { plugins: { legend: { position: 'right' } } }
   });
 }
 
@@ -225,3 +232,47 @@ document.getElementById("clear-filters").addEventListener("click", () => {
   document.getElementById("filter-category").value = "";
   updateTable();
 });
+
+// Kategori Ekleme
+document.getElementById("category-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const name = document.getElementById("new-category").value.trim();
+  if (!name) return;
+
+  const newCategory = { category: name };
+  const res = await fetch(CATEGORY_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newCategory)
+  });
+
+  const saved = await res.json();
+  categories.push(saved);
+  populateCategorySelects();
+  renderCategoryList();
+  this.reset();
+});
+
+// Kategori Listesi ve Silme
+function renderCategoryList() {
+  const list = document.getElementById("category-list");
+  list.innerHTML = "";
+
+  categories.forEach(cat => {
+    if (cat.category !== "Tüm Kategoriler") {
+      const li = document.createElement("li");
+      li.textContent = cat.category + " ";
+      const btn = document.createElement("button");
+      btn.textContent = "Sil";
+      btn.onclick = async () => {
+        await fetch(`${CATEGORY_URL}/${cat.id}`, { method: "DELETE" });
+        categories = categories.filter(c => c.id !== cat.id);
+        populateCategorySelects();
+        renderCategoryList();
+        updateTable();
+      };
+      li.appendChild(btn);
+      list.appendChild(li);
+    }
+  });
+}
