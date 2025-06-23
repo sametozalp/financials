@@ -143,17 +143,26 @@ async function deleteTransaction(id) {
 }
 
 function updateTotals() {
+  const selectedType = document.getElementById("filter-type").value;
+  const selectedCategory = document.getElementById("filter-category").value;
+
   let income = 0;
   let expense = 0;
 
   transactions.forEach(t => {
-    if (t.type === "gelir") income += t.amount;
-    else expense += t.amount;
+    const matchType = selectedType === "" || t.type === selectedType;
+    const matchCategory = selectedCategory === "" || t.category === selectedCategory;
+
+    if (matchType && matchCategory) {
+      if (t.type === "gelir") income += t.amount;
+      else if (t.type === "gider") expense += t.amount;
+    }
   });
 
   document.getElementById("total-income").textContent = `₺${income.toFixed(2)}`;
   document.getElementById("total-expense").textContent = `₺${expense.toFixed(2)}`;
 }
+
 
 function editTransaction(id) {
   const transaction = transactions.find(t => t.id === id);
