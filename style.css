@@ -172,11 +172,27 @@ tbody button:last-child:hover {
   background: #a71d2a;
 }
 
-/* Mobil uyumlu düzenlemeler */
-/* ... mevcut css'in diğer kısımları aynı kalacak ... */
-
-/* Mobil uyumlu düzenlemeler */
 @media (max-width: 768px) {
+
+   h1 {
+    font-size: 1.5rem;
+  }
+
+  input,
+  select,
+  button {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .totals {
+    font-size: 14px;
+  }
+
+  tbody button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
 
   #filters {
     display: flex;
@@ -262,31 +278,6 @@ tbody button:last-child:hover {
   }
 }
 
-/* Küçük telefonlar için daha fazla iyileştirme */
-@media (max-width: 400px) {
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  input,
-  select,
-  button {
-    font-size: 14px;
-    padding: 10px 12px;
-  }
-
-  .totals {
-    font-size: 14px;
-  }
-
-  tbody button {
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-}
-
-
-/* Animasyon */
 @keyframes fadeInUp {
   from {
     opacity: 0;
