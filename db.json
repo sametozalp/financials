@@ -5,7 +5,7 @@
       "amount": 6500,
       "date": "2025-06-05",
       "type": "gider",
-      "category": "Ulaşım",
+      "category": "d8f2e6a7",
       "id": "d732"
     },
     {
@@ -13,7 +13,7 @@
       "amount": 22500,
       "date": "2025-06-12",
       "type": "gelir",
-      "category": "Maaş",
+      "category": "l1d2f3c8",
       "id": "d19a"
     },
     {
@@ -21,7 +21,7 @@
       "amount": 15000,
       "date": "2025-06-14",
       "type": "gelir",
-      "category": "Kira",
+      "category": "f4d6c8e2",
       "id": "72d7"
     },
     {
@@ -29,8 +29,70 @@
       "amount": 2500,
       "date": "2025-06-09",
       "type": "gider",
-      "category": "Seyahat",
+      "category": "o6a1c9e3",
       "id": "7c4e"
+    }
+  ],
+  "categories": [
+    {
+      "id": "b7e6d4a9",
+      "category": "Genel"
+    },
+    {
+      "id": "c3b1f908",
+      "category": "Yiyecek"
+    },
+    {
+      "id": "d8f2e6a7",
+      "category": "Ulaşım"
+    },
+    {
+      "id": "e1a7b5c3",
+      "category": "Eğlence"
+    },
+    {
+      "id": "f4d6c8e2",
+      "category": "Kira"
+    },
+    {
+      "id": "g9b0a4f1",
+      "category": "Fatura"
+    },
+    {
+      "id": "h2f3e7b6",
+      "category": "Sağlık"
+    },
+    {
+      "id": "i5c1d3a0",
+      "category": "Eğitim"
+    },
+    {
+      "id": "j3e9f6d8",
+      "category": "Alışveriş"
+    },
+    {
+      "id": "k7a4b2e9",
+      "category": "Tasarruf"
+    },
+    {
+      "id": "l1d2f3c8",
+      "category": "Maaş"
+    },
+    {
+      "id": "m9f8e4a6",
+      "category": "Yatırım"
+    },
+    {
+      "id": "n3b7d0f5",
+      "category": "Hediye"
+    },
+    {
+      "id": "o6a1c9e3",
+      "category": "Seyahat"
+    },
+    {
+      "id": "p5f2b7d1",
+      "category": "Diğer"
     }
   ]
 }

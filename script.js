@@ -1,12 +1,53 @@
 const API_URL = "http://localhost:3000/financials";
+const CATEGORY_URL = "http://localhost:3000/categories";
+
 let transactions = [];
+let categories = [];
+let editingId = null;
 
 window.onload = async () => {
-  const res = await fetch(API_URL);
-  transactions = await res.json();
-  updateTable();
-  updateTotals();
+  try {
+    const [res1, res2] = await Promise.all([
+      fetch(API_URL),
+      fetch(CATEGORY_URL)
+    ]);
+    transactions = await res1.json();
+    categories = await res2.json();
+
+    populateCategorySelects();
+    updateTable();
+    updateTotals();
+  } catch (err) {
+    console.error("Veri alınırken hata oluştu:", err);
+  }
 };
+
+function populateCategorySelects() {
+  const formSelect = document.getElementById("category");
+  const filterSelect = document.getElementById("filter-category");
+
+  formSelect.innerHTML = "";
+  filterSelect.innerHTML = '<option value="">Tüm Kategoriler</option>';
+
+  categories.forEach(cat => {
+    if (cat.category !== "Tüm Kategoriler") {
+      const option = document.createElement("option");
+      option.value = cat.id;
+      option.textContent = cat.category;
+      formSelect.appendChild(option);
+    }
+
+    const filterOption = document.createElement("option");
+    filterOption.value = cat.id;
+    filterOption.textContent = cat.category;
+    filterSelect.appendChild(filterOption);
+  });
+}
+
+function getCategoryNameById(id) {
+  const cat = categories.find(c => c.id === id);
+  return cat ? cat.category : "Bilinmeyen";
+}
 
 document.getElementById("transaction-form").addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -17,7 +58,7 @@ document.getElementById("transaction-form").addEventListener("submit", async fun
   const type = document.getElementById("type").value;
   const category = document.getElementById("category").value;
 
-  if (!desc || isNaN(amount) || !date || amount <= 0) {
+  if (!desc || isNaN(amount) || !date || amount <= 0 || !category) {
     alert("Geçersiz bilgi !");
     return;
   }
@@ -25,7 +66,6 @@ document.getElementById("transaction-form").addEventListener("submit", async fun
   const newTransaction = { description: desc, amount, date, type, category };
 
   if (editingId) {
-    // Güncelleme işlemi
     const res = await fetch(`${API_URL}/${editingId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -39,7 +79,6 @@ document.getElementById("transaction-form").addEventListener("submit", async fun
 
     document.querySelector("#transaction-form button").textContent = "Ekle";
   } else {
-    // Yeni ekleme işlemi
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -53,6 +92,7 @@ document.getElementById("transaction-form").addEventListener("submit", async fun
   updateTable();
   updateTotals();
   this.reset();
+  document.getElementById("cancel-edit").style.display = "none";
 });
 
 function updateTable() {
@@ -60,22 +100,22 @@ function updateTable() {
   list.innerHTML = "";
 
   const selectedType = document.getElementById("filter-type").value;
-  const selectedCategory = document.getElementById("filter-category").value;
+  const selectedCategoryId = document.getElementById("filter-category").value;
 
   const filtered = transactions.filter(t => {
     return (selectedType === "" || t.type === selectedType) &&
-           (selectedCategory === "" || t.category === selectedCategory);
+           (selectedCategoryId === "" || t.category === selectedCategoryId);
   });
 
   filtered.forEach((t) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td data-label="Açıklama">${t.description}</td>
-      <td data-label="Miktar">₺${t.amount.toFixed(2)}</td>
-      <td data-label="Tarih">${t.date}</td>
-      <td data-label="Tür">${t.type}</td>
-      <td data-label="Kategori">${t.category}</td>
-      <td data-label="İşlem">
+      <td>${t.description}</td>
+      <td>₺${t.amount.toFixed(2)}</td>
+      <td>${t.date}</td>
+      <td>${t.type}</td>
+      <td>${getCategoryNameById(t.category)}</td>
+      <td>
         <button onclick="editTransaction('${t.id}')">Düzenle</button>
         <button onclick="deleteTransaction('${t.id}')">Sil</button>
       </td>
@@ -86,7 +126,6 @@ function updateTable() {
   updateTotals();
   updateCharts();
 }
-
 
 async function deleteTransaction(id) {
   await fetch(`${API_URL}/${id}`, { method: "DELETE" });
@@ -109,8 +148,6 @@ function updateTotals() {
   document.getElementById("total-expense").textContent = `₺${expense.toFixed(2)}`;
 }
 
-let editingId = null;
-
 function editTransaction(id) {
   const transaction = transactions.find(t => t.id === id);
   if (!transaction) return;
@@ -127,18 +164,10 @@ function editTransaction(id) {
   document.getElementById("cancel-edit").style.display = "inline-block";
 }
 
-
 document.getElementById("cancel-edit").addEventListener("click", () => {
-  // Formu sıfırla
   document.getElementById("transaction-form").reset();
-
-  // Düzenleme modunu kapat
   editingId = null;
-
-  // Buton metnini geri "Ekle" yap
   document.querySelector("#transaction-form button").textContent = "Ekle";
-
-  // Vazgeç butonunu gizle
   document.getElementById("cancel-edit").style.display = "none";
 });
 
@@ -150,70 +179,37 @@ function updateCharts() {
 
   transactions.forEach(t => {
     const target = t.type === "gelir" ? incomeData : expenseData;
-    target[t.category] = (target[t.category] || 0) + t.amount;
+    const categoryName = getCategoryNameById(t.category);
+    target[categoryName] = (target[categoryName] || 0) + t.amount;
   });
 
-  // Verileri ayır
   const incomeLabels = Object.keys(incomeData);
   const incomeValues = Object.values(incomeData);
-
   const expenseLabels = Object.keys(expenseData);
   const expenseValues = Object.values(expenseData);
 
-  // Eğer grafikler zaten varsa önce yok et
   if (incomeChart) incomeChart.destroy();
   if (expenseChart) expenseChart.destroy();
 
-  // Gelir grafiği
-  const ctxIncome = document.getElementById("incomeChart").getContext("2d");
-  incomeChart = new Chart(ctxIncome, {
+  incomeChart = new Chart(document.getElementById("incomeChart").getContext("2d"), {
     type: "pie",
     data: {
       labels: incomeLabels,
-      datasets: [{
-        data: incomeValues,
-        backgroundColor: generateColors(incomeLabels.length),
-      }]
+      datasets: [{ data: incomeValues, backgroundColor: generateColors(incomeLabels.length) }]
     },
-    options: {
-      plugins: {
-        legend: {
-          position: 'right',
-        },
-        title: {
-          display: false,
-          //text: 'Gelir Dağılımı'
-        }
-      }
-    }
+    options: { plugins: { legend: { position: 'right' }, title: { display: false } } }
   });
 
-  // Gider grafiği
-  const ctxExpense = document.getElementById("expenseChart").getContext("2d");
-  expenseChart = new Chart(ctxExpense, {
+  expenseChart = new Chart(document.getElementById("expenseChart").getContext("2d"), {
     type: "pie",
     data: {
       labels: expenseLabels,
-      datasets: [{
-        data: expenseValues,
-        backgroundColor: generateColors(expenseLabels.length),
-      }]
+      datasets: [{ data: expenseValues, backgroundColor: generateColors(expenseLabels.length) }]
     },
-    options: {
-      plugins: {
-        legend: {
-          position: 'right',
-        },
-        title: {
-          display: false,
-          //text: 'Gider Dağılımı'
-        }
-      }
-    }
+    options: { plugins: { legend: { position: 'right' }, title: { display: false } } }
   });
 }
 
-// Rastgele renkler üret
 function generateColors(count) {
   const colors = [];
   for (let i = 0; i < count; i++) {

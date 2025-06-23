@@ -1,3 +1,7 @@
+<!--KATEGORİ EKLEME SİLME ÖZELLİĞİ EKLENECEK
+RAPOR HAZIRLANACAK VE KAĞIDA BASILACAK-->
+
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -7,7 +11,6 @@
   <title>Gelir Gider Takibi</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </head>
 
 <body>
@@ -22,23 +25,7 @@
         <option value="gelir">Gelir</option>
         <option value="gider">Gider</option>
       </select>
-      <select id="category">
-        <option value="Genel">Genel</option>
-        <option value="Yiyecek">Yiyecek</option>
-        <option value="Ulaşım">Ulaşım</option>
-        <option value="Eğlence">Eğlence</option>
-        <option value="Kira">Kira</option>
-        <option value="Fatura">Fatura</option>
-        <option value="Sağlık">Sağlık</option>
-        <option value="Eğitim">Eğitim</option>
-        <option value="Alışveriş">Alışveriş</option>
-        <option value="Tasarruf">Tasarruf</option>
-        <option value="Maaş">Maaş</option>
-        <option value="Yatırım">Yatırım</option>
-        <option value="Hediye">Hediye</option>
-        <option value="Seyahat">Seyahat</option>
-        <option value="Diğer">Diğer</option>
-      </select>
+      <select id="category"></select>
       <button type="submit">Ekle</button>
       <button type="button" id="cancel-edit" style="display: none;">Vazgeç</button>
     </form>
@@ -55,26 +42,9 @@
           <option value="gelir">Gelir</option>
           <option value="gider">Gider</option>
         </select>
-
         <select id="filter-category">
           <option value="">Tüm Kategoriler</option>
-          <option value="Genel">Genel</option>
-          <option value="Yiyecek">Yiyecek</option>
-          <option value="Ulaşım">Ulaşım</option>
-          <option value="Eğlence">Eğlence</option>
-          <option value="Kira">Kira</option>
-          <option value="Fatura">Fatura</option>
-          <option value="Sağlık">Sağlık</option>
-          <option value="Eğitim">Eğitim</option>
-          <option value="Alışveriş">Alışveriş</option>
-          <option value="Tasarruf">Tasarruf</option>
-          <option value="Maaş">Maaş</option>
-          <option value="Yatırım">Yatırım</option>
-          <option value="Hediye">Hediye</option>
-          <option value="Seyahat">Seyahat</option>
-          <option value="Diğer">Diğer</option>
         </select>
-
         <button id="clear-filters">Filtreyi Temizle</button>
       </div>
 
