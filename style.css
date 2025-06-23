@@ -1,4 +1,3 @@
-/* Reset ve temel ayarlar */
 * {
   box-sizing: border-box;
 }
@@ -179,6 +178,12 @@ tbody button:last-child:hover {
 /* Mobil uyumlu düzenlemeler */
 @media (max-width: 768px) {
 
+  #filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
   .chart-title {
     margin-left: 0px;
     text-align: center;
@@ -213,9 +218,9 @@ tbody button:last-child:hover {
     border: 0;
   }
 
+  /*mobil görünüme geçince başlıklar gizlenmeli*/
   thead {
     display: none;
-    /* Başlık satırı gizleniyor */
   }
 
   tbody tr {
@@ -326,8 +331,10 @@ tbody button:last-child:hover {
   padding: 20px;
   width: 90%;
   max-width: 500px;
-  max-height: 80vh; /* Ekran yüksekliğinin %80'i */
-  overflow-y: auto; /* Taşan içerikte dikey scroll */
+  max-height: 80vh;
+  /* Ekran yüksekliğinin %80'i */
+  overflow-y: auto;
+  /* Taşan içerikte dikey scroll */
   border-radius: 10px;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }

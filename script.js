@@ -117,16 +117,17 @@ function updateTable() {
   filtered.forEach((t) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${t.description}</td>
-      <td>₺${t.amount.toFixed(2)}</td>
-      <td>${t.date}</td>
-      <td>${t.type}</td>
-      <td>${getCategoryNameById(t.category)}</td>
-      <td>
+      <td data-label="Açıklama">${t.description}</td>
+      <td data-label="Miktar">₺${t.amount.toFixed(2)}</td>
+      <td data-label="Tarih">${t.date}</td>
+      <td data-label="Tür">${t.type}</td>
+      <td data-label="Kategori">${getCategoryNameById(t.category)}</td>
+      <td data-label="İşlem">
         <button onclick="editTransaction('${t.id}')">Düzenle</button>
         <button onclick="deleteTransaction('${t.id}')">Sil</button>
       </td>
     `;
+
     list.appendChild(row);
   });
 
